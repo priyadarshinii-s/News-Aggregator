@@ -6,7 +6,7 @@ function App() {
           Welcome to VNC
         </h1>
         <p className="text-gray-600 text-center">
-          Your React app with Tailwind CSS is ready!
+          React app!
         </p>
       </div>
     </div>
