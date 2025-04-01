@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import signup from "../images/SignUp.jpg";
+import signup from "../images/signup.jpg";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");

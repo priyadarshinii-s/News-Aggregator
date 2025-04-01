@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import signup from "../images/signup.jpg";
+import login from "../images/login.jpg";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -28,12 +28,10 @@ const SignIn = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
-        {/* Left Side - Image */}
         <div className="w-1/2 hidden md:flex items-center justify-center">
-          <img src={signup} alt="Sign In" className="w-full h-auto rounded-lg" />
+          <img src={login} alt="Sign In" className="w-full h-auto rounded-lg" />
         </div>
 
-        {/* Right Side - Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-bold text-center mb-6">Sign In</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
