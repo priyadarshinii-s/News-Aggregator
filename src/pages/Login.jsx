@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../images/login.jpg";
+import Background from "../components/Background";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -26,8 +27,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
+    <div className="relative min-h-screen flex items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-300 via-blue-200 to-white"></div>
+      <div className="z-10 bg-gradient-to-t from-blue-300 to-white  p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
         <div className="w-1/2 hidden md:flex items-center justify-center">
           <img src={login} alt="Sign In" className="w-full h-auto rounded-lg" />
         </div>
