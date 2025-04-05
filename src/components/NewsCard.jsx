@@ -7,6 +7,7 @@ const NewsCard = ({
   isVoting,
   timer,
   reliability,
+  verified,
   title,
   description,
   time,
@@ -49,27 +50,44 @@ const NewsCard = ({
         isVoting ? "cursor-default" : "cursor-pointer"
       }`}
     >
-      {/* Header */}
-      <div className="flex justify-between items-center text-sm text-gray-600 mb-3">
-        <span className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">
-          {category}
-        </span>
-        {isVoting ? (
-          <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs font-semibold">
-            ⏳ {timer} left
-          </span>
-        ) : (
-          <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-semibold">
-            {reliability}% Reliable
-          </span>
-        )}
-      </div>
+      {/* Header Row: category, verified, reliable/timer */}
+      <div className="flex justify-between items-center text-sm text-gray-600 mb-3 relative">
+  {/* Left - Category */}
+  <div className="absolute left-0">
+    <span className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">
+      {category}
+    </span>
+  </div>
+
+  {/* Center - Verified */}
+  {verified && !isVoting && (
+    <div className="mx-auto">
+      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+        ✅ Verified
+      </span>
+    </div>
+  )}
+
+  {/* Right - Timer or Reliability */}
+  <div className="absolute right-0">
+    {isVoting ? (
+      <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs font-semibold">
+        ⏳ {timer} left
+      </span>
+    ) : (
+      <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-semibold">
+        {reliability}% Reliable
+      </span>
+    )}
+  </div>
+</div>
+
 
       {/* Content */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col justify-between flex-1">
           <div>
-            <h2 className="text-lg font-bold text-gray-900 mb-1">{title}</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">{title}</h2>
             <p className="text-gray-700 text-sm mb-2">{description}</p>
           </div>
 
