@@ -6,6 +6,7 @@ import Header from "./components/Header.jsx";
 import NewsCard from "./components/NewsCard.jsx";
 import HomePage from "./pages/Home.jsx";
 import NewsDetails from "./pages/NewsDetails.jsx";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<HomePage/>} />
         <Route path="newsCard" element={<NewsCard/>} />
         <Route path="/news/:id" element={<NewsDetails />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
