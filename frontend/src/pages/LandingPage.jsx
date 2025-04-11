@@ -14,6 +14,7 @@ export default function LandingPage() {
     return () => clearTimeout(timer);
   }, []);
 
+
   const getStaggeredDelay = (index) => {
     const baseDelay = 300;
     const staggerAmount = 150;
