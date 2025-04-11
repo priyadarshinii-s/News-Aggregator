@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../images/login.jpg";
-import Background from "../components/Background";
+import { useNavigate } from "react-router-dom";
+
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
+  const navigate = useNavigate();
+
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -24,6 +27,7 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ email, password });
+    navigate("/home");
   };
 
   return (

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import signup from "../images/signup.jpg";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
+  const navigate = useNavigate();
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -30,6 +32,7 @@ const SignUp = () => {
     }
   
     console.log({ username, email, password, walletAddress });
+    navigate("/login");
   };
   
 

@@ -25,6 +25,7 @@ const HomePage = () => {
       time: "1 hour 30 mins remaining",
       imageUrl: "https://tse2.mm.bing.net/th?id=OIP.6t6iDlW-Mq_YIVC_MtPBWwAAAA&pid=Api&P=0&h=180",
       isVoting: true,
+      timer: "1:30 hours"
     },
     {
       id: "3",
