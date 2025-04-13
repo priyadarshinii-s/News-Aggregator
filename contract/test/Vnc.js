@@ -2,20 +2,21 @@ const {
   time,
   loadFixture,
 } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
-const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
+const { ethers } = require("hardhat");
+
+news_content = `President Donald Trump exempted smartphones, computers, and other tech devices and components from his reciprocal tariffs, new guidance from U.S. Customs and Border Protection shows.
+The guidance, issued late Friday evening, comes after Trump earlier this month imposed 145% tariffs on products from China, a move that threatened to take a toll on tech giants like Apple
+, which makes iPhones and most of its other products in China.`
+
 
 describe("VncContract", function () {
 
-
   async function deployFixture() {
-
     const [owner, verifier, user] = await ethers.getSigners();
-
 
     const vncContracctFactory = await ethers.getContractFactory("VncContract");
     const vncContract = await vncContracctFactory.deploy();
-
 
     return { vncContract, owner, verifier, user };
   }
@@ -26,30 +27,50 @@ describe("VncContract", function () {
 
       expect(await vncContract.owner()).to.equal(owner.address);
     });
-
-    // it("Should set the right owner", async function () {
-    //   const { lock, owner } = await loadFixture(deployOneYearLockFixture);
-
-    //   expect(await lock.owner()).to.equal(owner.address);
-    // });
-
-    // it("Should receive and store the funds to lock", async function () {
-    //   const { lock, lockedAmount } = await loadFixture(
-    //     deployOneYearLockFixture
-    //   );
-
-    //   expect(await ethers.provider.getBalance(lock.target)).to.equal(
-    //     lockedAmount
-    //   );
-    // });
-
-    // it("Should fail if the unlockTime is not in the future", async function () {
-    //   // We don't use the fixture here because we want a different deployment
-    //   const latestTime = await time.latest();
-    //   const Lock = await ethers.getContractFactory("Lock");
-    //   await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
-    //     "Unlock time should be in the future"
-    //   );
-    // });
   });
+
+
+  describe("Verifier", async function () {
+    it("Should throw error if not owner", async function () {
+      const { vncContract, owner, verifier } = await loadFixture(deployFixture);
+
+      await expect(vncContract.connect(verifier).addVerifier(owner)).to.be.revertedWithCustomError(vncContract, "InvalidUser")
+        .withArgs(verifier)
+    });
+
+    it("Owner should add verifier", async function () {
+      const { vncContract, verifier } = await loadFixture(deployFixture);
+      await vncContract.addVerifier(verifier);
+
+      expect(await vncContract.verifiers(verifier)).to.equal(true);
+    });
+
+    it("Owner should remove verifier", async function () {
+      const { vncContract, owner, verifier } = await loadFixture(deployFixture);
+
+      vncContract.addVerifier(verifier);
+      vncContract.removeVerifier(verifier);
+
+      expect(await vncContract.verifiers(owner)).to.equal(false);
+    })
+  });
+
+
+  describe("News", async function () {
+
+    it("Should post news", async function () {
+        const {vncContract, user} = await loadFixture(deployFixture);
+
+        await vncContract.connect(user).postNews(ethers.keccak256(ethers.toUtf8Bytes(news_content)));
+
+        let res = await vncContract.getNews(0);
+
+        expect(res[0]).to.equal("0x9a2cfccaa6ea481b11ea7b0ce76515e545180b09d419b1d426cc4374e7b75fa1")
+    })
+  });
+
+
+  describe("News Verification", async function () {
+    
+  })
 });

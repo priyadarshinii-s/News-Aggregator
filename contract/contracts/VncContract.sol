@@ -49,12 +49,8 @@ contract VncContract {
     }
 
     function verifyNews(bytes1 option, uint256 _newsId) external onlyVerifiers {
-        if (option == "1") {
-            news[_newsId].trustWorthy++;
-        }
-        else{
-            news[_newsId].questionable++;
-        }
+
+        option == "1" ? news[_newsId].trustWorthy++ : news[_newsId].questionable++;
 
         news[_newsId].totalVotes++;
     }
@@ -70,6 +66,5 @@ contract VncContract {
     function getNews(uint256 _newsId) external view returns (News memory) {
         return news[_newsId];
     }
-
 }
 
