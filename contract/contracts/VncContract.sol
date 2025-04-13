@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-
 contract VncContract {
 
     address public owner;
@@ -20,13 +19,16 @@ contract VncContract {
     mapping(address => bool) public verifiers;
 
     error InvalidUser(address caller);
+    error InvalidVerifier(address verifier);
+    error VotingWindowExpired(uint256 deadline, uint256 currentTime);
+
 
     constructor (){
         owner = msg.sender;
     }
 
     modifier onlyVerifiers {
-        require(verifiers[msg.sender], InvalidUser(msg.sender));
+        require(verifiers[msg.sender], InvalidVerifier(msg.sender));
         _;
     }
 
@@ -49,6 +51,11 @@ contract VncContract {
     }
 
     function verifyNews(bytes1 option, uint256 _newsId) external onlyVerifiers {
+
+        uint256 deadline = news[_newsId].timestamp + 2 hours;
+        if (block.timestamp > deadline) {
+            revert VotingWindowExpired(deadline, block.timestamp);
+        }
 
         option == "1" ? news[_newsId].trustWorthy++ : news[_newsId].questionable++;
 
