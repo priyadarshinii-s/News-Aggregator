@@ -25,26 +25,25 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!username || !email || !password || !walletAddress) {
       alert("Please fill all fields and connect wallet.");
       return;
     }
-  
+
     console.log({ username, email, password, walletAddress });
     navigate("/login");
   };
-  
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
-        {/* Left Side - Image */}
+    <div className="relative min-h-screen flex items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-300 via-blue-200 to-white"></div>
+      <div className="z-10 bg-gradient-to-t from-blue-300 to-white  p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
         <div className="w-1/2 hidden md:flex items-center justify-center">
           <img src={signup} alt="Sign Up" className="w-full h-auto rounded-lg" />
         </div>
 
-        {/* Right Side - Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-bold text-center mb-4">Sign Up</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -70,11 +69,11 @@ const SignUp = () => {
               className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
-                type="button"
-                onClick={connectWallet}
-                className="w-full bg-blue-500 text-white p-3 rounded-xl font-semibold hover:bg-blue-600 transition"
+              type="button"
+              onClick={connectWallet}
+              className="w-full bg-blue-500 text-white p-3 rounded-xl font-semibold hover:bg-blue-600 transition"
             >
-                {walletAddress ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : "Connect Wallet"}
+              {walletAddress ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : "Connect Wallet"}
             </button>
 
             <button type="submit" className="w-full bg-green-500 text-white p-3 rounded-xl font-semibold hover:bg-green-600 transition">
