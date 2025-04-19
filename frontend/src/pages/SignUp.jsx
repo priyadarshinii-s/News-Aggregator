@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import signup from "../images/signup.jpg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +24,7 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (!username || !email || !password || !walletAddress) {
@@ -31,8 +32,24 @@ const SignUp = () => {
       return;
     }
 
-    console.log({ username, email, password, walletAddress });
-    navigate("/login");
+    try{
+      const response = await axios.post("http://localhost:5000/api/users/signup",{
+        name: username,
+        email: email,
+        password: password,
+        wallet: walletAddress,
+      });
+
+      alert(response.data.message);
+      navigate("/login");
+    }
+    catch(error){
+      console.error("Signup error: ", error);
+      alert(error.response?.data?.message || "Signup failed");
+    }
+
+    // console.log({ username, email, password, walletAddress });
+    
   };
 
 

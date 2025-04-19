@@ -1,31 +1,38 @@
-// require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const userRoutes = require("./routes/UsersRoutes");
+
+const dotenv = require("dotenv");
+dotenv.config();
 
 
-// const express = require("express");
-// const cors = require("cors");
-// const app = express();
-// const mongoose = require("mongoose");
+const User = require("./models/Users"); 
+const News = require("./models/News"); 
 
+const app = express();
+app.use(cors());
+app.use(express.json());
 
+// console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
-// app.use(cors());
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// app.use(express.json());
+app.use("/api/users", userRoutes);
 
-// app.get("/", (req, res)=>{
-//     res.send("hi")
-// })
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
 
-// app.listen(7000, ()=> {
-//     console.log("Server is running on port : 7000")
-// })
-
-
-
-
-
-
-
+app.listen(process.env.PORT, () =>
+  console.log(`Server running on port ${process.env.PORT}`)
+);
 
 
 

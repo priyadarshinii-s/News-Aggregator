@@ -5,6 +5,6 @@
     "hardhat": "^2.23.0"
   },
   "dependencies": {
-   
+    "hardhat-project": "file:"
   }
 }

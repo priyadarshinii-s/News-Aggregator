@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../images/login.jpg";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +14,9 @@ const SignIn = () => {
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
         setWalletAddress(accounts[0]);
       } catch (error) {
         console.error("Wallet connection failed", error);
@@ -24,11 +26,35 @@ const SignIn = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    navigate("/home");
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/login", {
+        email,
+        password,
+      });
+  
+      const { token, message } = response.data;
+  
+      if (token) {
+        localStorage.setItem("token", token); // ✅ Save the token
+        alert(message || "Login successful!");
+        navigate("/home");
+      } else {
+        alert("Login failed: No token received");
+      }
+    } 
+    catch (error) {
+      console.error("Login error:", error);
+      alert(error.response?.data?.message || "Login failed. Please try again.");
+    }
   };
+  
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
