@@ -1,33 +1,60 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header"; // Adjust the path as needed
+import Header from "../components/Header"; // Adjust path as needed
 
 const CreateNewsPage = () => {
   const [heading, setHeading] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [category, setCategory] = useState("Technology");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newNews = {
-      id: Date.now(),
       title: heading,
       description: content,
       imageUrl,
+      category,
       time: new Date().toLocaleString(),
     };
 
-    console.log("Submitted news:", newNews);
-    setHeading("");
-    setContent("");
-    setImageUrl("");
-    navigate("/home");
+    try {
+      const token = localStorage.getItem("token"); // Get JWT token from localStorage
+
+      const response = await fetch("http://localhost:5000/api/news/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Send token in header
+        },
+        body: JSON.stringify(newNews),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("News created successfully:", data);
+        alert("News successfully posted!");
+        // Reset form
+        setHeading("");
+        setContent("");
+        setImageUrl("");
+        setCategory("technology");
+        navigate("/discover");
+      } else {
+        console.error("Error:", data.message || data.error);
+        alert(data.message || "Something went wrong!");
+      }
+    } catch (err) {
+      console.error("Request failed:", err);
+      alert("Server not reachable or error occurred.");
+    }
   };
 
   const handleCancel = () => {
-    navigate("/home");
+    navigate("/discover");
   };
 
   return (
@@ -83,6 +110,27 @@ const CreateNewsPage = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Paste the image link"
             />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="Technology">Technology</option>
+              <option value="Tealth">Health</option>
+              <option value="Politics">Politics</option>
+              <option value="Education">Education</option>
+              <option value="Sports">Sports</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Science">Science</option>
+              <option value="Travel">Travel</option>
+            </select>
           </div>
 
           <div className="flex justify-end gap-4 pt-4">

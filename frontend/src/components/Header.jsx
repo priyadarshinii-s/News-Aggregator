@@ -34,14 +34,8 @@ const Header = () => {
 
       {/* Navigation */}
       <nav className="hidden md:flex space-x-6 text-base">
-        <Link to="/home" className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
-          <FaHome className="h-5 w-5" /> <span>Home</span>
-        </Link>
         <Link to="/discover" className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
           <FaCompass className="h-5 w-5" /> <span>Discover</span>
-        </Link>
-        <Link to="/bookmarks" className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
-          <FaBookmark className="h-5 w-5" /> <span>Bookmarks</span>
         </Link>
       </nav>
 
