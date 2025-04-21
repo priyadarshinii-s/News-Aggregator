@@ -60,7 +60,6 @@ const NewsCard = ({
       className={`bg-white rounded-xl shadow-md p-4 mb-4 max-w-3xl w-full transform transition-transform hover:scale-105 hover:shadow-lg ${isVoting ? "cursor-default" : "cursor-pointer"
         }`}
     >
-
       <div className="flex justify-between items-center text-sm text-gray-600 mb-3">
         <span className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">
           {category}
@@ -71,14 +70,26 @@ const NewsCard = ({
             ✅ Verified
           </span>
         )}
-
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col justify-between flex-1">
           <div>
             <h2 className="text-lg font-bold text-gray-900 mb-2">{title}</h2>
-            <p className="text-gray-700 text-sm mb-2">{description}</p>
+
+            {/* Truncated description to show only two lines */}
+            <p
+              className="text-gray-700 text-sm mb-2 line-clamp-2"
+              style={{
+                WebkitLineClamp: 2, // Limits the number of lines to show
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {description}
+            </p>
           </div>
 
           <div className="text-xs text-gray-500">
