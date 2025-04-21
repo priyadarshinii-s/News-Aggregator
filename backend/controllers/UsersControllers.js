@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Signup
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, wallet, password } = req.body;
+    const { name, email, wallet, password, role } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: "User already exists" });
@@ -19,6 +19,7 @@ exports.registerUser = async (req, res) => {
       email,
       wallet,
       password: hashedPassword,
+      role, // include the role
     });
 
     res.status(201).json({ message: "User registered successfully", user });
@@ -26,6 +27,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 // Login
 exports.loginUser = async (req, res) => {

@@ -48,7 +48,7 @@ const SignIn = () => {
       if (token) {
         localStorage.setItem("token", token); 
         alert(message || "Login successful!");
-        navigate("/home");
+        navigate("/discover");
       } else {
         alert("Login failed: No token received");
       }

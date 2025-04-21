@@ -2,10 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/UsersRoutes");
+const newsRoutes = require("./routes/NewsRoutes");
 
 const dotenv = require("dotenv");
 dotenv.config();
-
 
 const User = require("./models/Users"); 
 const News = require("./models/News"); 
@@ -25,6 +25,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use("/api/users", userRoutes);
+app.use("/api/news", newsRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running");

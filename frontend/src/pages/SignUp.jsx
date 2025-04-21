@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signup from "../images/signup.jpg";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUp = () => {
@@ -9,6 +8,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
+  const [role, setRole] = useState("user"); // New state for role
   const navigate = useNavigate();
 
   const connectWallet = async () => {
@@ -24,39 +24,35 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!username || !email || !password || !walletAddress) {
+    if (!username || !email || !password || !walletAddress || !role) {
       alert("Please fill all fields and connect wallet.");
       return;
     }
 
-    try{
-      const response = await axios.post("http://localhost:5000/api/users/signup",{
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/signup", {
         name: username,
-        email: email,
-        password: password,
+        email,
+        password,
         wallet: walletAddress,
+        role,
       });
 
       alert(response.data.message);
       navigate("/login");
-    }
-    catch(error){
-      console.error("Signup error: ", error);
+    } catch (error) {
+      console.error("Signup error:", error);
       alert(error.response?.data?.message || "Signup failed");
     }
-
-    // console.log({ username, email, password, walletAddress });
-    
   };
-
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
       <div className="absolute inset-0 bg-gradient-to-t from-blue-300 via-blue-200 to-white"></div>
-      <div className="z-10 bg-gradient-to-t from-blue-300 to-white  p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
+      <div className="z-10 bg-gradient-to-t from-blue-300 to-white p-8 rounded-2xl shadow-lg flex w-3/4 max-w-4xl">
         <div className="w-1/2 hidden md:flex items-center justify-center">
           <img src={signup} alt="Sign Up" className="w-full h-auto rounded-lg" />
         </div>
@@ -85,6 +81,14 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="user">User</option>
+              <option value="verifier">Verifier</option>
+            </select>
             <button
               type="button"
               onClick={connectWallet}
