@@ -77,11 +77,10 @@ const NewsCard = ({
           <div>
             <h2 className="text-lg font-bold text-gray-900 mb-2">{title}</h2>
 
-            {/* Truncated description to show only two lines */}
             <p
               className="text-gray-700 text-sm mb-2 line-clamp-2"
               style={{
-                WebkitLineClamp: 2, // Limits the number of lines to show
+                WebkitLineClamp: 2, 
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
@@ -99,7 +98,6 @@ const NewsCard = ({
             </div>
           </div>
 
-          {isVoting && (
             <div className="flex gap-4 mt-3 flex-wrap">
               <div className="bg-green-100 text-green-700 px-4 py-1 rounded-md text-sm font-semibold">
                 ✅ Trustworthy – {getPercentage("trustworthy")}
@@ -108,7 +106,6 @@ const NewsCard = ({
                 ⚠️ Questionable – {getPercentage("questionable")}
               </div>
             </div>
-          )}
         </div>
 
         <div className="flex-shrink-0 self-start mt-2 sm:mt-0">

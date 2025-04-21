@@ -9,7 +9,7 @@ const Header = () => {
   const [animationLoaded, setAnimationLoaded] = useState(false);
   const navigate = useNavigate();
 
-  const userType = "creator"; 
+  const userType = "creator";
 
   useEffect(() => {
     setTimeout(() => setAnimationLoaded(true), 100);
@@ -25,16 +25,14 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md px-6 py-3 flex justify-between items-center fixed w-full top-0 z-10">
-      <div className="flex items-center">
-        <EarthLock className="h-6 w-6 text-blue-600 mr-2" />
-        <span className="text-blue-600 font-bold text-lg">VNC</span>
-      </div>
+      <Link to="/discover" >
+        <div className="flex items-center">
+          <EarthLock className="h-6 w-6 text-blue-600 mr-2" />
+          <span className="text-blue-600 font-bold text-lg">VNC</span>
+        </div>
+      </Link>
 
-      <nav className="hidden md:flex space-x-6 text-base">
-        <Link to="/discover" className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
-          <FaCompass className="h-5 w-5" /> <span>Discover</span>
-        </Link>
-      </nav>
+
 
       <div className="relative flex items-center gap-2">
         {userType === "creator" && (
