@@ -43,41 +43,21 @@ const NewsDetails = () => {
       <Header />
       <div className="pt-28 px-4 md:px-8 min-h-screen bg-gray-50">
         <div className="relative max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md">
-
-          {/* Close Button */}
           <button
-            onClick={() => navigate(-1)} // Goes back to previous page
-            className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl font-bold"
+            onClick={() => navigate(-1)}
+            className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-5xl"
             aria-label="Close"
           >
             &times;
           </button>
 
-          {/* Category */}
           <div className="mb-4 flex flex-wrap gap-3 items-center">
             <span className="bg-gray-200 text-sm px-3 py-1 rounded-full">{state.category}</span>
-            {state.verified && (
-              <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
-                ✅ Verified
-              </span>
-            )}
-            {state.reliability && !state.isVoting && (
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                {state.reliability}% Reliable
-              </span>
-            )}
-            {state.isVoting && (
-              <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
-                ⏳ Voting Open
-              </span>
-            )}
           </div>
 
-          {/* Title & Time */}
           <h1 className="text-2xl font-bold mb-2">{state.title}</h1>
           <p className="text-gray-500 text-sm mb-4">🕒 {state.time}</p>
 
-          {/* Image */}
           {state.imageUrl && (
             <img
               src={state.imageUrl}
@@ -86,10 +66,8 @@ const NewsDetails = () => {
             />
           )}
 
-          {/* Description */}
           <p className="text-gray-800 text-base mb-6">{state.description}</p>
 
-          {/* Voting UI */}
           {state.isVoting && (
             <div className="mt-6">
               <h2 className="text-lg font-semibold mb-2">Cast your vote:</h2>

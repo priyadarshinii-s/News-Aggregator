@@ -39,10 +39,14 @@ const SignIn = () => {
         password,
       });
   
-      const { token, message } = response.data;
+      const { token, message, user } = response.data;
+
+      localStorage.setItem("isVerifier", false);
+      if(user.role == "verifier") localStorage.setItem("isVerifier", true);
+
   
       if (token) {
-        localStorage.setItem("token", token); // ✅ Save the token
+        localStorage.setItem("token", token); 
         alert(message || "Login successful!");
         navigate("/home");
       } else {

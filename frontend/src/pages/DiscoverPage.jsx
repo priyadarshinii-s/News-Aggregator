@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import NewsCard from "../components/NewsCard";
 
+import { ethers } from 'ethers';
+
 const sampleNews = [
     {
         id: "1",
@@ -49,6 +51,8 @@ const Discover = () => {
         return matchCategory && matchSearch;
       });
       
+    
+    
 
     return (
         <div className="min-h-screen bg-gray-50">
