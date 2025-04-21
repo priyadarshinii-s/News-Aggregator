@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import NewsCard from "../components/NewsCard";
+import { useContract } from "../contexts/contractContext";
 
-import { ethers } from 'ethers';
 
 const sampleNews = [
     {
@@ -40,6 +40,8 @@ const sampleNews = [
 const Discover = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [searchTerm, setSearchTerm] = useState("");
+
+     const { contract, result } = useContract();
 
     const filteredNews = sampleNews.filter((news) => {
         const matchCategory =

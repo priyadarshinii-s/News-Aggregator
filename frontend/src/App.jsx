@@ -10,23 +10,24 @@ import Profile from "./pages/Profile.jsx";
 import Discover from "./pages/DiscoverPage.jsx";
 import CreateNewsPage from "./pages/CreateNewsPage.jsx";
 import BookmarksPage from "./pages/BookMarksPage.jsx";
+import { ContractProvider } from "./contexts/contractContext.jsx";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />}/>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/header" element={<Header/>} /> 
-        <Route path="/home" element={<HomePage/>} />
-        <Route path="newsCard" element={<NewsCard/>} />
-        <Route path="/news/:id" element={<NewsDetails />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/discover" element={<Discover/>} />
-        <Route path="/create" element={<CreateNewsPage/>} />
-        <Route path="/bookmarks" element={<BookmarksPage />} />
-      </Routes>
+      <ContractProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/header" element={<Header />} />
+          <Route path="newsCard" element={<NewsCard />} />
+          <Route path="/news/:id" element={<NewsDetails />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/create" element={<CreateNewsPage />} />
+        </Routes>
+      </ContractProvider>
     </BrowserRouter>
   );
 }

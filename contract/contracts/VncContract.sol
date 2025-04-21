@@ -17,6 +17,7 @@ contract VncContract {
 
     mapping(uint256 => News) public news;
     mapping(address => bool) public verifiers;
+    mapping(address => mapping(uint => bool)) public usersVote;
 
     error InvalidUser(address caller);
     error InvalidVerifier(address verifier);
@@ -51,6 +52,9 @@ contract VncContract {
     }
 
     function verifyNews(bytes1 option, uint256 _newsId) external onlyVerifiers {
+        if (usersVote[msg.sender][_newsId]) {
+            revert("User has already voted for this news");
+        }
 
         uint256 deadline = news[_newsId].timestamp + 2 hours;
         if (block.timestamp > deadline) {
@@ -60,6 +64,11 @@ contract VncContract {
         option == "1" ? news[_newsId].trustWorthy++ : news[_newsId].questionable++;
 
         news[_newsId].totalVotes++;
+        usersVote[msg.sender][_newsId] = true;
+    }
+
+    function hasVoted(address user, uint256 _newsId) external view returns (bool) {
+        return usersVote[user][_newsId];
     }
 
     function addVerifier(address _addr) external onlyOwner {   

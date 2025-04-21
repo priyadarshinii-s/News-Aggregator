@@ -112,9 +112,10 @@ describe("VncContract", function () {
       const {vncContract, verifier, user} = await loadFixture(deployFixture);
 
       await vncContract.addVerifier(verifier);
+      await vncContract.addVerifier(user);
       await vncContract.connect(user).postNews(ethers.keccak256(ethers.toUtf8Bytes(news_content)));
       await vncContract.connect(verifier).verifyNews(ethers.toUtf8Bytes("0"), 0);
-      await vncContract.connect(verifier).verifyNews(ethers.toUtf8Bytes("1"), 0);
+      await vncContract.connect(user).verifyNews(ethers.toUtf8Bytes("1"), 0);
 
       let res =  await vncContract.connect(verifier).getNews(0);
 
