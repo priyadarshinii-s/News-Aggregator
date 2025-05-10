@@ -1,31 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-contract VncContract {
+import "./VotingContract.sol";
 
+contract VncContract {
     address public owner;
     uint256 private newsCount;
+    VotingContract public votingContract;
 
     struct News {
         bytes32 newsHash;
         uint256 timestamp;
         bool verified;
-        uint256 trustWorthy;
-        uint256 questionable;
-        uint256 totalVotes;
     }
 
     mapping(uint256 => News) public news;
     mapping(address => bool) public verifiers;
-    mapping(address => mapping(uint => bool)) public usersVote;
 
     error InvalidUser(address caller);
     error InvalidVerifier(address verifier);
-    error VotingWindowExpired(uint256 deadline, uint256 currentTime);
 
-
-    constructor (){
+    constructor(address _votingContract) {
         owner = msg.sender;
+        votingContract = VotingContract(_votingContract);
     }
 
     modifier onlyVerifiers {
@@ -42,33 +39,15 @@ contract VncContract {
         news[newsCount] = News({
             newsHash: _newsHash,
             timestamp: block.timestamp,
-            verified: false,
-            trustWorthy: 0,
-            questionable: 0,
-            totalVotes: 0
+            verified: false
         });
 
+        votingContract.initializeVoting(newsCount);
         newsCount++;
     }
 
     function verifyNews(bytes1 option, uint256 _newsId) external onlyVerifiers {
-        if (usersVote[msg.sender][_newsId]) {
-            revert("User has already voted for this news");
-        }
-
-        uint256 deadline = news[_newsId].timestamp + 2 hours;
-        if (block.timestamp > deadline) {
-            revert VotingWindowExpired(deadline, block.timestamp);
-        }
-
-        option == "1" ? news[_newsId].trustWorthy++ : news[_newsId].questionable++;
-
-        news[_newsId].totalVotes++;
-        usersVote[msg.sender][_newsId] = true;
-    }
-
-    function hasVoted(address user, uint256 _newsId) external view returns (bool) {
-        return usersVote[user][_newsId];
+        votingContract.vote(option, _newsId, msg.sender);
     }
 
     function addVerifier(address _addr) external onlyOwner {   
@@ -79,8 +58,13 @@ contract VncContract {
         verifiers[_addr] = false;
     }
 
-    function getNews(uint256 _newsId) external view returns (News memory) {
-        return news[_newsId];
+    function getNews(uint256 _newsId) external view returns (
+        News memory newsData,
+        uint256 trustworthy,
+        uint256 questionable,
+        uint256 totalVotes
+    ) {
+        newsData = news[_newsId];
+        (trustworthy, questionable, totalVotes) = votingContract.getVotingResults(_newsId);
     }
 }
-
