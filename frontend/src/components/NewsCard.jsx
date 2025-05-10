@@ -38,21 +38,6 @@ const NewsCard = ({
     });
   };
 
-  const handleVote = (type) => {
-    const newCounts = {
-      ...voteCounts,
-      [type]: voteCounts[type] + 1,
-    };
-    setVoteCounts(newCounts);
-    setVoted(true);
-    onVote?.(id, type);
-  };
-
-  const getPercentage = (type) => {
-    const total = voteCounts.trustworthy + voteCounts.questionable;
-    if (total === 0) return "0%";
-    return `${Math.round((voteCounts[type] / total) * 100)}%`;
-  };
 
   return (
     <div
